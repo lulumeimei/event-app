@@ -29,26 +29,29 @@ class LinkHref extends Equatable {
   }
 }
 
-class SelfLink extends LinkHref {
+class SelfLink extends Equatable {
+  static const SELF = 'self';
+
+  final LinkHref linkHref;
+
   const SelfLink({
-    required String href,
-  }) : super(
-          href: href,
-        );
-}
+    required this.linkHref,
+  });
 
-class AttractionLink extends LinkHref {
-  const AttractionLink({
-    required String href,
-  }) : super(
-          href: href,
-        );
-}
+  @override
+  List<Object?> get props => [
+        linkHref,
+      ];
 
-class VenueLink extends LinkHref {
-  const VenueLink({
-    required String href,
-  }) : super(
-          href: href,
-        );
+  factory SelfLink.fromJson(Map<String, dynamic> map) {
+    return SelfLink(
+      linkHref: LinkHref.fromJson(map[SelfLink.SELF]),
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      SelfLink.SELF: linkHref.toJson(),
+    };
+  }
 }

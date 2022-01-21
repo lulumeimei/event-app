@@ -8,7 +8,7 @@ class TicketLink extends Equatable {
   static const ATTRACTIONS = 'attractions';
   static const VENUES = 'venues';
 
-  final LinkHref selfLink;
+  final SelfLink selfLink;
   final List<LinkHref> attractionLinks;
   final List<LinkHref> venueLinks;
 
@@ -39,7 +39,7 @@ class TicketLink extends Equatable {
       venueLinks.add(linkHref);
     }
     return TicketLink(
-      selfLink: LinkHref.fromJson(
+      selfLink: SelfLink.fromJson(
         map[TicketLink.SELF_LINK],
       ),
       attractionLinks: attractionLinks,

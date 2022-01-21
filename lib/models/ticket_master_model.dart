@@ -25,6 +25,7 @@ class TicketMaster extends Equatable {
   static const AGE_RESTRICTIONS = 'ageRestrictions';
   static const TICKETING = 'ticketing';
   static const LINKS = '_links';
+  static const EMBEDDED = '_embedded';
 
   final String id;
   final String name;
@@ -47,6 +48,7 @@ class TicketMaster extends Equatable {
   final AgeRestriction ageRestriction;
   final Ticketing ticketing;
   final TicketLink ticketLink;
+  final Embedded embedded;
 
   const TicketMaster({
     required this.id,
@@ -70,6 +72,7 @@ class TicketMaster extends Equatable {
     required this.ageRestriction,
     required this.ticketing,
     required this.ticketLink,
+    required this.embedded,
   });
 
   @override
@@ -95,6 +98,7 @@ class TicketMaster extends Equatable {
         ageRestriction,
         ticketing,
         ticketLink,
+        embedded,
       ];
 
   factory TicketMaster.fromJson(Map<String, dynamic> map) {
@@ -155,6 +159,7 @@ class TicketMaster extends Equatable {
           AgeRestriction.fromJson(map[TicketMaster.AGE_RESTRICTIONS]),
       ticketing: Ticketing.fromJson(map[TicketMaster.TICKETING]),
       ticketLink: TicketLink.fromJson(map[TicketMaster.LINKS]),
+      embedded: Embedded.fromJson(map[TicketMaster.EMBEDDED]),
     );
   }
 }
