@@ -17,9 +17,9 @@ class Instagram extends Equatable {
         socialMediaUrls,
       ];
 
-  factory Instagram.fromJson(Map<String, dynamic> map) {
+  factory Instagram.fromJson(List map) {
     List<SocialMediaUrl> socialMediaUrls = [];
-    for (Map<String, dynamic> socialMediaMap in map[Instagram.INSTAGRAM] ?? []) {
+    for (Map<String, dynamic> socialMediaMap in map) {
       SocialMediaUrl socialMediaUrl = SocialMediaUrl.fromJson(socialMediaMap);
       socialMediaUrls.add(socialMediaUrl);
     }

@@ -37,16 +37,16 @@ class TicketMaster extends Equatable {
   final Sales sales;
   final TicketDateStatus ticketDateStatus;
   final List<Classification> classificationList;
-  final Promoter promoter;
+  final Promoter? promoter;
   final List<Promoter> promoters;
-  final String info;
+  final String? info;
   final List<PriceRange> priceRanges;
   final List<Product> products;
-  final SeatMap seatMap;
-  final Accessibility accessibility;
-  final TicketLimit ticketLimit;
-  final AgeRestriction ageRestriction;
-  final Ticketing ticketing;
+  final SeatMap? seatMap;
+  final Accessibility? accessibility;
+  final TicketLimit? ticketLimit;
+  final AgeRestriction? ageRestriction;
+  final Ticketing? ticketing;
   final TicketLink ticketLink;
   final Embedded embedded;
 
@@ -61,16 +61,16 @@ class TicketMaster extends Equatable {
     required this.sales,
     required this.ticketDateStatus,
     required this.classificationList,
-    required this.promoter,
+    this.promoter,
     required this.promoters,
-    required this.info,
+    this.info,
     required this.priceRanges,
     required this.products,
-    required this.seatMap,
-    required this.accessibility,
-    required this.ticketLimit,
-    required this.ageRestriction,
-    required this.ticketing,
+    this.seatMap,
+    this.accessibility,
+    this.ticketLimit,
+    this.ageRestriction,
+    this.ticketing,
     required this.ticketLink,
     required this.embedded,
   });
@@ -147,17 +147,28 @@ class TicketMaster extends Equatable {
       sales: Sales.fromJson(map[TicketMaster.SALES]),
       ticketDateStatus: TicketDateStatus.fromJson(map[TicketMaster.DATES]),
       classificationList: classificationList,
-      promoter: Promoter.fromJson(map[TicketMaster.PROMOTER]),
+      promoter: map[TicketMaster.PROMOTER] != null
+          ? Promoter.fromJson(map[TicketMaster.PROMOTER])
+          : null,
       promoters: promoters,
       info: map[TicketMaster.INFO],
       priceRanges: priceRanges,
       products: products,
-      seatMap: SeatMap.fromJson(map[TicketMaster.SEAT_MAP]),
-      accessibility: Accessibility.fromJson(map[TicketMaster.ACCESSIBILITY]),
-      ticketLimit: TicketLimit.fromJson(map[TicketMaster.TICKET_LIMIT]),
-      ageRestriction:
-          AgeRestriction.fromJson(map[TicketMaster.AGE_RESTRICTIONS]),
-      ticketing: Ticketing.fromJson(map[TicketMaster.TICKETING]),
+      seatMap: map[TicketMaster.SEAT_MAP] != null
+          ? SeatMap.fromJson(map[TicketMaster.SEAT_MAP])
+          : null,
+      accessibility: map[TicketMaster.ACCESSIBILITY] != null
+          ? Accessibility.fromJson(map[TicketMaster.ACCESSIBILITY])
+          : null,
+      ticketLimit: map[TicketMaster.TICKET_LIMIT] != null
+          ? TicketLimit.fromJson(map[TicketMaster.TICKET_LIMIT])
+          : null,
+      ageRestriction: map[TicketMaster.AGE_RESTRICTIONS] != null
+          ? AgeRestriction.fromJson(map[TicketMaster.AGE_RESTRICTIONS])
+          : null,
+      ticketing: map[TicketMaster.TICKETING] != null
+          ? Ticketing.fromJson(map[TicketMaster.TICKETING])
+          : null,
       ticketLink: TicketLink.fromJson(map[TicketMaster.LINKS]),
       embedded: Embedded.fromJson(map[TicketMaster.EMBEDDED]),
     );

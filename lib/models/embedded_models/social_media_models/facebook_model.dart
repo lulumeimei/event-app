@@ -17,9 +17,9 @@ class Facebook extends Equatable {
         socialMediaUrls,
       ];
 
-  factory Facebook.fromJson(Map<String, dynamic> map) {
+  factory Facebook.fromJson(List map) {
     List<SocialMediaUrl> socialMediaUrls = [];
-    for (Map<String, dynamic> socialMediaMap in map[Facebook.FACEBOOK] ?? []) {
+    for (Map<String, dynamic> socialMediaMap in map) {
       SocialMediaUrl socialMediaUrl = SocialMediaUrl.fromJson(socialMediaMap);
       socialMediaUrls.add(socialMediaUrl);
     }

@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 class HealthCheck extends Equatable {
   static const SUMMARY = 'summary';
   static const DESCRIPTION = 'description';
-  static const LEARN_MORE_URL = 'learMoreUrl';
+  static const LEARN_MORE_URL = 'learnMoreUrl';
 
   final String summary;
   final String description;

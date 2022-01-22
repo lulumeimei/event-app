@@ -14,14 +14,14 @@ class Product extends Equatable {
   final String name;
   final String url;
   final String type;
-  final Classification classification;
+  final List<Classification> classifications;
 
   const Product({
     required this.id,
     required this.name,
     required this.url,
     required this.type,
-    required this.classification,
+    required this.classifications,
   });
 
   @override
@@ -30,16 +30,23 @@ class Product extends Equatable {
         name,
         url,
         type,
-        classification,
+        classifications,
       ];
 
   factory Product.fromJson(Map<String, dynamic> map) {
+    List<Classification> classificationList = [];
+    for (Map<String, dynamic> classificationMap
+        in map[Product.CLASSIFICATION] ?? []) {
+      Classification classification =
+          Classification.fromJson(classificationMap);
+      classificationList.add(classification);
+    }
     return Product(
       id: map[Product.ID],
       name: map[Product.NAME] ?? '',
       url: map[Product.URL] ?? '',
       type: map[Product.TYPE] ?? '',
-      classification: Classification.fromJson(map[Product.CLASSIFICATION]),
+      classifications: classificationList,
     );
   }
 
@@ -49,7 +56,11 @@ class Product extends Equatable {
       Product.NAME: name,
       Product.URL: url,
       Product.TYPE: type,
-      Product.CLASSIFICATION: classification.toJson(),
+      Product.CLASSIFICATION: classifications
+          .map(
+            (e) => e.toJson(),
+          )
+          .toList(),
     };
   }
 }

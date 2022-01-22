@@ -8,14 +8,14 @@ class PublicSales extends Equatable {
   static const START_TBD = 'startTBD';
   static const START_TBA = 'startTBA';
 
-  final DateTime startDateTime;
-  final DateTime endDateTime;
+  final DateTime? startDateTime;
+  final DateTime? endDateTime;
   final bool startTBD;
   final bool startTBA;
 
   const PublicSales({
-    required this.startDateTime,
-    required this.endDateTime,
+    this.startDateTime,
+    this.endDateTime,
     required this.startTBD,
     required this.startTBA,
   });
@@ -30,10 +30,14 @@ class PublicSales extends Equatable {
 
   factory PublicSales.fromJson(Map<String, dynamic> map) {
     return PublicSales(
-      startDateTime: DateTime.parse(
-        map[PublicSales.START_DATETIME],
-      ),
-      endDateTime: DateTime.parse(map[PublicSales.END_DATETIME]),
+      startDateTime: map[PublicSales.START_DATETIME] != null
+          ? DateTime.parse(
+              map[PublicSales.START_DATETIME],
+            )
+          : null,
+      endDateTime: map[PublicSales.END_DATETIME] != null
+          ? DateTime.parse(map[PublicSales.END_DATETIME])
+          : null,
       startTBD: map[PublicSales.START_TBD] ?? false,
       startTBA: map[PublicSales.START_TBA] ?? false,
     );
@@ -41,8 +45,8 @@ class PublicSales extends Equatable {
 
   Map<String, dynamic> toJson() {
     return {
-      PublicSales.START_DATETIME: startDateTime.toIso8601String(),
-      PublicSales.END_DATETIME: endDateTime.toIso8601String(),
+      PublicSales.START_DATETIME: startDateTime?.toIso8601String(),
+      PublicSales.END_DATETIME: endDateTime?.toIso8601String(),
       PublicSales.START_TBD: startTBD,
       PublicSales.START_TBA: startTBA,
     };

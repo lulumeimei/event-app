@@ -23,7 +23,7 @@ class Attraction extends Equatable {
   final bool test;
   final String url;
   final String locale;
-  final ExternalLinks externalLinks;
+  final ExternalLinks? externalLinks;
   final List<String> aliases;
   final List<TicketImage> images;
   final List<Classification> classifications;
@@ -87,12 +87,13 @@ class Attraction extends Equatable {
       test: map[Attraction.TEST] ?? false,
       url: map[Attraction.URL],
       locale: map[Attraction.LOCALE],
-      externalLinks: ExternalLinks.fromJson(map[Attraction.EXTERNAL_LINKS]),
+      externalLinks: map[Attraction.EXTERNAL_LINKS] != null
+          ? ExternalLinks.fromJson(map[Attraction.EXTERNAL_LINKS])
+          : null,
       aliases: aliases,
       images: images,
       classifications: classifications,
-      upcomingEvents:
-          UpcomingEvents.fromAttractionJson(map[Attraction.UPCOMING_EVENTS]),
+      upcomingEvents: UpcomingEvents.fromJson(map[Attraction.UPCOMING_EVENTS]),
       selfLink: SelfLink.fromJson(map[Attraction.LINKS]),
     );
   }
@@ -105,7 +106,7 @@ class Attraction extends Equatable {
       Attraction.TEST: test,
       Attraction.URL: url,
       Attraction.LOCALE: locale,
-      Attraction.EXTERNAL_LINKS: externalLinks.toJson(),
+      Attraction.EXTERNAL_LINKS: externalLinks?.toJson(),
       Attraction.ALIASES: aliases.map((e) => e).toList(),
       Attraction.IMAGES: images
           .map(

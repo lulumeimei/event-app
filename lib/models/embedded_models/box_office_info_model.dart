@@ -7,9 +7,9 @@ class BoxOfficeInfo extends Equatable {
   static const OPEN_HOURS_DETAIL = 'openHoursDetail';
   static const WILL_CALL_DETAIL = 'willCallDetail';
 
-  final String phoneNumberDetail;
-  final String openHoursDetail;
-  final String willCallDetail;
+  final String? phoneNumberDetail;
+  final String? openHoursDetail;
+  final String? willCallDetail;
 
   @override
   List<Object?> get props => [
@@ -19,9 +19,9 @@ class BoxOfficeInfo extends Equatable {
       ];
 
   const BoxOfficeInfo({
-    required this.phoneNumberDetail,
-    required this.openHoursDetail,
-    required this.willCallDetail,
+    this.phoneNumberDetail,
+    this.openHoursDetail,
+    this.willCallDetail,
   });
 
   factory BoxOfficeInfo.fromJson(Map<String, dynamic> map) {

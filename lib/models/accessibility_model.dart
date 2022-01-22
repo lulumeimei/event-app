@@ -5,10 +5,10 @@ import 'package:equatable/equatable.dart';
 class Accessibility extends Equatable {
   static const TICKET_LIMIT = 'ticketLimit';
 
-  final int ticketLimit;
+  final int? ticketLimit;
 
   const Accessibility({
-    required this.ticketLimit,
+    this.ticketLimit,
   });
 
   @override

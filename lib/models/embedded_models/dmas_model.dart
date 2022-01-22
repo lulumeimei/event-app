@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 class DMas extends Equatable {
   static const ID = 'id';
 
-  final String id;
+  final int id;
 
   @override
   List<Object?> get props => [

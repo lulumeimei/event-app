@@ -17,9 +17,9 @@ class Wiki extends Equatable {
         socialMediaUrls,
       ];
 
-  factory Wiki.fromJson(Map<String, dynamic> map) {
+  factory Wiki.fromJson(List map) {
     List<SocialMediaUrl> socialMediaUrls = [];
-    for (Map<String, dynamic> socialMediaMap in map[Wiki.WIKI] ?? []) {
+    for (Map<String, dynamic> socialMediaMap in map) {
       SocialMediaUrl socialMediaUrl = SocialMediaUrl.fromJson(socialMediaMap);
       socialMediaUrls.add(socialMediaUrl);
     }

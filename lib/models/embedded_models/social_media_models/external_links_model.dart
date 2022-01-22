@@ -11,9 +11,9 @@ class ExternalLinks extends Equatable {
   static const HOMEPAGE = 'homepage';
 
   final Twitter twitter;
-  final Wiki wiki;
+  final Wiki? wiki;
   final Facebook facebook;
-  final Instagram instagram;
+  final Instagram? instagram;
   final Homepage homepage;
 
   @override
@@ -27,18 +27,22 @@ class ExternalLinks extends Equatable {
 
   const ExternalLinks({
     required this.twitter,
-    required this.wiki,
+    this.wiki,
     required this.facebook,
-    required this.instagram,
+    this.instagram,
     required this.homepage,
   });
 
   factory ExternalLinks.fromJson(Map<String, dynamic> map) {
     return ExternalLinks(
       twitter: Twitter.fromJson(map[ExternalLinks.TWITTER]),
-      wiki: Wiki.fromJson(map[ExternalLinks.WIKI]),
+      wiki: map[ExternalLinks.WIKI] != null
+          ? Wiki.fromJson(map[ExternalLinks.WIKI])
+          : null,
       facebook: Facebook.fromJson(map[ExternalLinks.FACEBOOK]),
-      instagram: Instagram.fromJson(map[ExternalLinks.INSTAGRAM]),
+      instagram: map[ExternalLinks.INSTAGRAM] != null
+          ? Instagram.fromJson(map[ExternalLinks.INSTAGRAM])
+          : null,
       homepage: Homepage.fromJson(map[ExternalLinks.HOMEPAGE]),
     );
   }
@@ -46,9 +50,9 @@ class ExternalLinks extends Equatable {
   Map<String, dynamic> toJson() {
     return {
       ExternalLinks.TWITTER: twitter.toJson(),
-      ExternalLinks.WIKI: wiki.toJson(),
+      ExternalLinks.WIKI: wiki?.toJson(),
       ExternalLinks.FACEBOOK: facebook.toJson(),
-      ExternalLinks.INSTAGRAM: instagram.toJson(),
+      ExternalLinks.INSTAGRAM: instagram?.toJson(),
       ExternalLinks.HOMEPAGE: homepage.toJson(),
     };
   }

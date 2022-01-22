@@ -32,7 +32,7 @@ class Venue extends Equatable {
   final String type;
   final String id;
   final bool test;
-  final String url;
+  final String? url;
   final String locale;
   final List<TicketImage> images;
   final String postcode;
@@ -44,10 +44,10 @@ class Venue extends Equatable {
   final Location location;
   final List<Market> markets;
   final List<DMas> dmasList;
-  final BoxOfficeInfo boxOfficeInfo;
-  final String parkingDetail;
-  final String accessibleSeatingDetail;
-  final GeneralInfo generalInfo;
+  final BoxOfficeInfo? boxOfficeInfo;
+  final String? parkingDetail;
+  final String? accessibleSeatingDetail;
+  final GeneralInfo? generalInfo;
   final UpcomingEvents upcomingEvents;
   final Links links;
 
@@ -82,7 +82,7 @@ class Venue extends Equatable {
     required this.type,
     required this.id,
     required this.test,
-    required this.url,
+    this.url,
     required this.locale,
     required this.images,
     required this.postcode,
@@ -94,10 +94,10 @@ class Venue extends Equatable {
     required this.location,
     required this.markets,
     required this.dmasList,
-    required this.boxOfficeInfo,
-    required this.parkingDetail,
-    required this.accessibleSeatingDetail,
-    required this.generalInfo,
+    this.boxOfficeInfo,
+    this.parkingDetail,
+    this.accessibleSeatingDetail,
+    this.generalInfo,
     required this.upcomingEvents,
     required this.links,
   });
@@ -138,10 +138,14 @@ class Venue extends Equatable {
       location: Location.fromJson(map[Venue.LOCATION]),
       markets: markets,
       dmasList: dmasList,
-      boxOfficeInfo: BoxOfficeInfo.fromJson(map[Venue.BOX_OFFICE_INFO]),
+      boxOfficeInfo: map[Venue.BOX_OFFICE_INFO] != null
+          ? BoxOfficeInfo.fromJson(map[Venue.BOX_OFFICE_INFO])
+          : null,
       parkingDetail: map[Venue.PARKING_DETAIL],
       accessibleSeatingDetail: map[Venue.ACCESSIBLE_SEATING_DETAIL],
-      generalInfo: GeneralInfo.fromJson(map[Venue.GENERAL_INFO]),
+      generalInfo: map[Venue.GENERAL_INFO] != null
+          ? GeneralInfo.fromJson(map[Venue.GENERAL_INFO])
+          : null,
       upcomingEvents: UpcomingEvents.fromJson(map[Venue.UPCOMING_EVENTS]),
       links: Links.fromJson(map[Venue.LINKS]),
     );
@@ -177,10 +181,10 @@ class Venue extends Equatable {
             (e) => e.toJson(),
           )
           .toList(),
-      Venue.BOX_OFFICE_INFO: boxOfficeInfo.toJson(),
+      Venue.BOX_OFFICE_INFO: boxOfficeInfo?.toJson(),
       Venue.PARKING_DETAIL: parkingDetail,
       Venue.ACCESSIBLE_SEATING_DETAIL: accessibleSeatingDetail,
-      Venue.GENERAL_INFO: generalInfo.toJson(),
+      Venue.GENERAL_INFO: generalInfo?.toJson(),
       Venue.UPCOMING_EVENTS: upcomingEvents.toJson(),
       Venue.LINKS: links.toJson(),
     };

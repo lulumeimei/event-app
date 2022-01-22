@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 class Address extends Equatable {
   static const LINE_1 = 'line1';
 
-  final String line1;
+  final String? line1;
 
   @override
   List<Object?> get props => [
@@ -13,7 +13,7 @@ class Address extends Equatable {
       ];
 
   const Address({
-    required this.line1,
+    this.line1,
   });
 
   factory Address.fromJson(Map<String, dynamic> map) {

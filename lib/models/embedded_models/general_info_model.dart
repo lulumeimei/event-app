@@ -6,12 +6,12 @@ class GeneralInfo extends Equatable {
   static const GENERAL_RULE = 'generalRule';
   static const CHILD_RULE = 'childRule';
 
-  final String generalRule;
-  final String childRule;
+  final String? generalRule;
+  final String? childRule;
 
   const GeneralInfo({
-    required this.generalRule,
-    required this.childRule,
+    this.generalRule,
+    this.childRule,
   });
 
   @override

@@ -10,9 +10,9 @@ class UpcomingEvents extends Equatable {
   static const TMR = 'tmr';
   static const TICKET_MASTER_1 = 'ticketmaster';
 
-  final int total;
+  final int? total;
   final int? tmr;
-  final int ticketMaster;
+  final int? ticketMaster;
 
   @override
   List<Object?> get props => [
@@ -22,25 +22,26 @@ class UpcomingEvents extends Equatable {
       ];
 
   const UpcomingEvents({
-    required this.total,
+    this.total,
     this.tmr,
-    required this.ticketMaster,
+    this.ticketMaster,
   });
 
   factory UpcomingEvents.fromJson(Map<String, dynamic> map) {
     return UpcomingEvents(
-      total: int.parse(map[UpcomingEvents.TOTAL].toString()),
-      ticketMaster: int.parse(map[UpcomingEvents.TICKET_MASTER].toString()),
-    );
-  }
-
-  factory UpcomingEvents.fromAttractionJson(Map<String, dynamic> map) {
-    return UpcomingEvents(
-      total: int.parse(map[UpcomingEvents.TOTAL_1].toString()),
+      total: map[UpcomingEvents.TOTAL_1] != null
+          ? int.parse(map[UpcomingEvents.TOTAL_1].toString())
+          : map[UpcomingEvents.TOTAL] != null
+              ? int.parse(map[UpcomingEvents.TOTAL].toString())
+              : null,
       tmr: map[UpcomingEvents.TMR] != null
           ? int.parse(map[UpcomingEvents.TMR].toString())
           : null,
-      ticketMaster: int.parse(map[UpcomingEvents.TICKET_MASTER_1].toString()),
+      ticketMaster: map[UpcomingEvents.TICKET_MASTER_1] != null
+          ? int.parse(map[UpcomingEvents.TICKET_MASTER_1].toString())
+          : map[UpcomingEvents.TICKET_MASTER] != null
+              ? int.parse(map[UpcomingEvents.TICKET_MASTER].toString())
+              : null,
     );
   }
 

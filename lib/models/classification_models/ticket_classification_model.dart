@@ -17,8 +17,8 @@ class Classification extends Equatable {
   final Segment segment;
   final Genre genre;
   final SubGenre subGenre;
-  final Type type;
-  final SubType subType;
+  final Type? type;
+  final SubType? subType;
 
   const Classification({
     required this.primary,
@@ -26,8 +26,8 @@ class Classification extends Equatable {
     required this.segment,
     required this.genre,
     required this.subGenre,
-    required this.type,
-    required this.subType,
+    this.type,
+    this.subType,
   });
 
   @override
@@ -48,8 +48,12 @@ class Classification extends Equatable {
       segment: Segment.fromJson(map[Classification.SEGMENT]),
       genre: Genre.fromJson(map[Classification.GENRE]),
       subGenre: SubGenre.fromJson(map[Classification.SUB_GENRE]),
-      type: Type.fromJson(map[Classification.TYPE]),
-      subType: SubType.fromJson(map[Classification.SUB_TYPE]),
+      type: map[Classification.TYPE] != null
+          ? Type.fromJson(map[Classification.TYPE])
+          : null,
+      subType: map[Classification.SUB_TYPE] != null
+          ? SubType.fromJson(map[Classification.SUB_TYPE])
+          : null,
     );
   }
 
@@ -60,8 +64,8 @@ class Classification extends Equatable {
       Classification.SEGMENT: segment.toJson(),
       Classification.GENRE: genre.toJson(),
       Classification.SUB_GENRE: subGenre.toJson(),
-      Classification.TYPE: type.toJson(),
-      Classification.SUB_TYPE: subType.toJson(),
+      Classification.TYPE: type?.toJson(),
+      Classification.SUB_TYPE: subType?.toJson(),
     };
   }
 }
