@@ -173,4 +173,51 @@ class TicketMaster extends Equatable {
       embedded: Embedded.fromJson(map[TicketMaster.EMBEDDED]),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      TicketMaster.ID: id,
+      TicketMaster.NAME: name,
+      TicketMaster.TYPE: type,
+      TicketMaster.URL: url,
+      TicketMaster.LOCALE: locale,
+      TicketMaster.TEST: test,
+      TicketMaster.IMAGES: ticketImageList
+          .map(
+            (e) => e.toJson(),
+          )
+          .toList(),
+      TicketMaster.SALES: sales.toJson(),
+      TicketMaster.DATES: ticketDateStatus.toJson(),
+      TicketMaster.CLASSIFICATIONS: classificationList
+          .map(
+            (e) => e.toJson(),
+          )
+          .toList(),
+      TicketMaster.PROMOTER: promoter?.toJson(),
+      TicketMaster.PROMOTERS: promoters
+          .map(
+            (e) => e.toJson(),
+          )
+          .toList(),
+      TicketMaster.INFO: info,
+      TicketMaster.PRICE_RANGES: priceRanges
+          .map(
+            (e) => e.toJson(),
+          )
+          .toList(),
+      TicketMaster.PRODUCTS: products
+          .map(
+            (e) => e.toJson(),
+          )
+          .toList(),
+      TicketMaster.SEAT_MAP: seatMap?.toJson(),
+      TicketMaster.ACCESSIBILITY: accessibility?.toJson(),
+      TicketMaster.TICKET_LIMIT: ticketLimit?.toJson(),
+      TicketMaster.AGE_RESTRICTIONS: ageRestriction?.toJson(),
+      TicketMaster.TICKETING: ticketing?.toJson(),
+      TicketMaster.LINKS: ticketLink.toJson(),
+      TicketMaster.EMBEDDED: embedded.toJson(),
+    };
+  }
 }
