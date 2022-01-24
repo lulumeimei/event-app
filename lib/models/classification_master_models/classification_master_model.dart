@@ -10,12 +10,12 @@ class ClassificationMaster extends Equatable {
 
   final bool family;
   final SelfLink links;
-  final ClassificationMasterSegment classificationMasterSegment;
+  final ClassificationMasterSegment? classificationMasterSegment;
 
   const ClassificationMaster({
     required this.family,
     required this.links,
-    required this.classificationMasterSegment,
+    this.classificationMasterSegment,
   });
 
   @override
@@ -28,10 +28,16 @@ class ClassificationMaster extends Equatable {
   factory ClassificationMaster.fromJson(Map<String, dynamic> map) {
     return ClassificationMaster(
       family: map[ClassificationMaster.FAMILY] ?? false,
-      links: map[ClassificationMaster.LINKS],
-      classificationMasterSegment: ClassificationMasterSegment.fromJson(
-        map[ClassificationMaster.SEGMENT],
-      ),
+      links: SelfLink.fromJson(map[ClassificationMaster.LINKS]),
+      classificationMasterSegment: map[ClassificationMaster.SEGMENT] != null
+          ? ClassificationMasterSegment.fromJson(
+              map[ClassificationMaster.SEGMENT],
+            )
+          : map['type'] != null
+              ? ClassificationMasterSegment.fromJson(
+                  map['type'],
+                )
+              : null,
     );
   }
 
@@ -39,7 +45,7 @@ class ClassificationMaster extends Equatable {
     return {
       ClassificationMaster.FAMILY: family,
       ClassificationMaster.LINKS: links.toJson(),
-      ClassificationMaster.SEGMENT: classificationMasterSegment.toJson(),
+      ClassificationMaster.SEGMENT: classificationMasterSegment?.toJson(),
     };
   }
 }
@@ -76,9 +82,7 @@ class ClassificationMasterSegment {
       primaryID: map[ClassificationMasterSegment.PRIMARY_ID],
       links: SelfLink.fromJson(map[ClassificationMasterSegment.LINKS]),
       classificationMasterSegmentEmbedded:
-          ClassificationMasterSegmentEmbedded.fromJson(
-        map[ClassificationMasterSegment.EMBEDDED],
-      ),
+          ClassificationMasterSegmentEmbedded.fromJson(map),
     );
   }
 

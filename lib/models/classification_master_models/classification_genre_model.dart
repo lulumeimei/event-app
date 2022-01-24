@@ -47,7 +47,7 @@ class ClassificationMasterGenre extends Equatable {
 }
 
 class ClassificationMasterGenreEmbedded extends Equatable {
-  static const SUB_GENRES = 'subgenres';
+  static const SUB_GENRES = 'genres';
 
   final List<ClassificationMasterSubGenre> classificationMasterSubgenreList;
   const ClassificationMasterGenreEmbedded({

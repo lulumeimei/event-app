@@ -6,9 +6,14 @@ import 'package:ticketapp/models/index.dart';
 import 'package:ticketapp/router_configs/app_routes.dart';
 import 'package:ticketapp/views/event_detail_repo/index.dart';
 import 'package:ticketapp/views/event_listing_repo/bloc/event_listing_bloc.dart';
+import 'package:ticketapp/views/event_listing_repo/params/event_listing_page_params.dart';
 
 class EventListingPage extends StatefulWidget {
-  const EventListingPage({Key? key}) : super(key: key);
+  final EventListingPageParams eventListingPageParams;
+  const EventListingPage({
+    Key? key,
+    required this.eventListingPageParams,
+  }) : super(key: key);
 
   @override
   _EventListingPageState createState() => _EventListingPageState();
@@ -16,7 +21,7 @@ class EventListingPage extends StatefulWidget {
 
 class _EventListingPageState extends State<EventListingPage> {
   final RefreshController refreshController = RefreshController(
-    initialRefresh: true,
+    initialRefresh: false,
   );
 
   @override
@@ -49,89 +54,100 @@ class _EventListingPageState extends State<EventListingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<EventListingBloc, EventListingModel>(
-      builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Events'),
-          ),
-          body: BlocListener<EventListingBloc, EventListingModel>(
-            listener: (context, state) {
-              if (state.eventListingState is EventListingRefreshSuccess) {
-                refreshController.refreshCompleted();
-              }
-              if (state.eventListingState is EventListingRefreshFailed) {
-                refreshController.refreshFailed();
-              }
-              if (state.eventListingState is EventListingLoadFailed) {
-                refreshController.loadFailed();
-              }
-              if (state.eventListingState is EventListingLoadNoData) {
-                refreshController.loadNoData();
-              }
-              if (state.eventListingState is EventListingLoadSuccess) {
-                refreshController.loadComplete();
-              }
-            },
-            child: SmartRefresher(
-              enablePullDown: true,
-              enablePullUp: true,
-              header: const WaterDropHeader(),
-              footer: CustomFooter(
-                builder: (BuildContext context, LoadStatus? mode) {
-                  Widget body;
-                  if (mode == LoadStatus.idle) {
-                    body = const Text("pull up load");
-                  } else if (mode == LoadStatus.loading) {
-                    body = const CupertinoActivityIndicator();
-                  } else if (mode == LoadStatus.failed) {
-                    body = const Text("Load Failed!Click retry!");
-                  } else if (mode == LoadStatus.canLoading) {
-                    body = const Text("release to load more");
-                  } else {
-                    body = const Text("No more Data");
-                  }
-                  return SizedBox(
-                    height: 55.0,
-                    child: Center(child: body),
-                  );
-                },
-              ),
-              controller: refreshController,
-              onRefresh: _refreshData,
-              onLoading: _loadData,
-              child: state.ticketList.isNotEmpty
-                  ? ListView.builder(
-                      itemCount: state.ticketList.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        TicketMaster ticketMaster = state.ticketList[index];
-                        return ListTile(
-                          onTap: () {
-                            Navigator.pushNamed(
-                              context,
-                              AppRoutes.EVENT_DETAIL_PAGE,
-                              arguments: EventDetailParams(
-                                id: ticketMaster.id,
-                                ticketMaster: ticketMaster,
-                              ),
-                            );
-                          },
-                          title: Text(
-                            ticketMaster.name,
-                          ),
-                          subtitle: Text(
-                           ticketMaster.classificationList.map((e) => e.segment.name).toList().join(', '),
-                          ),
-                        );
-                      },
-                    )
-                  : const Center(
-                      child: Text('No Data'),
-                    ),
+    return BlocProvider<EventListingBloc>(
+      create: (context) => EventListingBloc(
+        perPage: widget.eventListingPageParams.perPage,
+        selectedClassificationMaster:
+            widget.eventListingPageParams.selectedClassificationMaster,
+        ticketList: widget.eventListingPageParams.ticketMasterList,
+      ),
+      child: BlocBuilder<EventListingBloc, EventListingModel>(
+        builder: (context, state) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Events'),
             ),
-          ),
-        );
-      },
+            body: BlocListener<EventListingBloc, EventListingModel>(
+              listener: (context, state) {
+                if (state.eventListingState is EventListingRefreshSuccess) {
+                  refreshController.refreshCompleted();
+                }
+                if (state.eventListingState is EventListingRefreshFailed) {
+                  refreshController.refreshFailed();
+                }
+                if (state.eventListingState is EventListingLoadFailed) {
+                  refreshController.loadFailed();
+                }
+                if (state.eventListingState is EventListingLoadNoData) {
+                  refreshController.loadNoData();
+                }
+                if (state.eventListingState is EventListingLoadSuccess) {
+                  refreshController.loadComplete();
+                }
+              },
+              child: SmartRefresher(
+                enablePullDown: true,
+                enablePullUp: true,
+                header: const WaterDropHeader(),
+                footer: CustomFooter(
+                  builder: (BuildContext context, LoadStatus? mode) {
+                    Widget body;
+                    if (mode == LoadStatus.idle) {
+                      body = const Text("pull up load");
+                    } else if (mode == LoadStatus.loading) {
+                      body = const CupertinoActivityIndicator();
+                    } else if (mode == LoadStatus.failed) {
+                      body = const Text("Load Failed!Click retry!");
+                    } else if (mode == LoadStatus.canLoading) {
+                      body = const Text("release to load more");
+                    } else {
+                      body = const Text("No more Data");
+                    }
+                    return SizedBox(
+                      height: 55.0,
+                      child: Center(child: body),
+                    );
+                  },
+                ),
+                controller: refreshController,
+                onRefresh: _refreshData,
+                onLoading: _loadData,
+                child: state.ticketList.isNotEmpty
+                    ? ListView.builder(
+                        itemCount: state.ticketList.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          TicketMaster ticketMaster = state.ticketList[index];
+                          return ListTile(
+                            onTap: () {
+                              Navigator.pushNamed(
+                                context,
+                                AppRoutes.EVENT_DETAIL_PAGE,
+                                arguments: EventDetailParams(
+                                  id: ticketMaster.id,
+                                  ticketMaster: ticketMaster,
+                                ),
+                              );
+                            },
+                            title: Text(
+                              ticketMaster.name,
+                            ),
+                            subtitle: Text(
+                              ticketMaster.classificationList
+                                  .map((e) => e.segment.name)
+                                  .toList()
+                                  .join(', '),
+                            ),
+                          );
+                        },
+                      )
+                    : const Center(
+                        child: Text('No Data'),
+                      ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }

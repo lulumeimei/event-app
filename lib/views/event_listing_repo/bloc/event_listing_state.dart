@@ -4,12 +4,14 @@ class EventListingModel extends Equatable {
   final int curPage;
   final int perPage;
   final List<TicketMaster> ticketList;
+  final ClassificationMaster? selectedClassificationMaster;
   final EventListingState eventListingState;
 
   const EventListingModel({
     required this.curPage,
     required this.perPage,
     required this.ticketList,
+    required this.selectedClassificationMaster,
     required this.eventListingState,
   });
 
@@ -18,29 +20,35 @@ class EventListingModel extends Equatable {
         curPage,
         perPage,
         ticketList,
+        selectedClassificationMaster,
         eventListingState,
       ];
 
   factory EventListingModel.initial({
     int? perPage,
+    required ClassificationMaster? selectedClassificationMaster,
+    required List<TicketMaster> ticketList,
   }) {
     return EventListingModel(
       curPage: 0,
       perPage: perPage ?? 20,
-      ticketList: const [],
-      eventListingState: EventListingInitial(),
+      ticketList: ticketList,
+      selectedClassificationMaster: selectedClassificationMaster,
+      eventListingState: EventListingRefreshSuccess(),
     );
   }
 
   EventListingModel copyWith({
     int? newCurPage,
     List<TicketMaster>? newTicketMasterList,
+    required ClassificationMaster? newSelectedClassificationMaster,
     EventListingState? newEventListingState,
   }) {
     return EventListingModel(
       curPage: newCurPage ?? curPage,
       perPage: perPage,
       ticketList: newTicketMasterList ?? ticketList,
+      selectedClassificationMaster: newSelectedClassificationMaster,
       eventListingState: newEventListingState ?? eventListingState,
     );
   }

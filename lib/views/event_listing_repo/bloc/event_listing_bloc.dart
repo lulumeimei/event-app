@@ -8,10 +8,14 @@ part 'event_listing_state.dart';
 
 class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
   EventListingBloc({
-    int? perPage,
+    required int? perPage,
+    required ClassificationMaster? selectedClassificationMaster,
+    required List<TicketMaster> ticketList,
   }) : super(
           EventListingModel.initial(
             perPage: perPage,
+            selectedClassificationMaster: selectedClassificationMaster,
+            ticketList: ticketList,
           ),
         ) {
     on<RefreshEventList>(_onRefreshEventList);
@@ -35,6 +39,7 @@ class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
         state.copyWith(
           newCurPage: ticketMasterList.isNotEmpty ? state.curPage + 1 : null,
           newTicketMasterList: existingTicketMaster,
+          newSelectedClassificationMaster: state.selectedClassificationMaster,
           newEventListingState: ticketMasterList.isNotEmpty
               ? EventListingLoadSuccess()
               : EventListingLoadNoData(),
@@ -43,6 +48,7 @@ class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
     } catch (e, stackTrace) {
       emit(
         state.copyWith(
+          newSelectedClassificationMaster: state.selectedClassificationMaster,
           newEventListingState: EventListingLoadFailed(
             msg: 'Load event listing failed',
             e: e,
@@ -58,6 +64,7 @@ class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
       emit(
         state.copyWith(
           newCurPage: 0,
+          newSelectedClassificationMaster: state.selectedClassificationMaster,
           newEventListingState: EventListingInitial(),
         ),
       );
@@ -70,12 +77,14 @@ class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
         state.copyWith(
           newCurPage: ticketMasterList.isNotEmpty ? state.curPage + 1 : null,
           newTicketMasterList: ticketMasterList,
+          newSelectedClassificationMaster: state.selectedClassificationMaster,
           newEventListingState: EventListingRefreshSuccess(),
         ),
       );
     } catch (e, stackTrace) {
       emit(
         state.copyWith(
+          newSelectedClassificationMaster: state.selectedClassificationMaster,
           newEventListingState: EventListingRefreshFailed(
             msg: 'Refresh event listing failed',
             e: e,

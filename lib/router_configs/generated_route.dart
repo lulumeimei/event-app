@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:ticketapp/router_configs/app_routes.dart';
+import 'package:ticketapp/views/dashboard_repo/views/dashboard_page.dart';
 import 'package:ticketapp/views/event_detail_repo/index.dart';
 import 'package:ticketapp/views/event_detail_repo/views/event_detail_page.dart';
+import 'package:ticketapp/views/event_listing_repo/params/event_listing_page_params.dart';
 import 'package:ticketapp/views/event_listing_repo/views/event_listing_page.dart';
 
 Route<dynamic> generatedRoute(RouteSettings settings) {
@@ -23,7 +25,11 @@ Route<dynamic> generatedRoute(RouteSettings settings) {
   Widget getPage() {
     switch (pageName) {
       case AppRoutes.INITIAL_ROUTE:
-        return const EventListingPage();
+        return const DashboardPage();
+      case AppRoutes.EVENT_LISTING_PAGE:
+        return EventListingPage(
+          eventListingPageParams: settings.arguments as EventListingPageParams,
+        );
       case AppRoutes.EVENT_DETAIL_PAGE:
         return EventDetailPage(
           eventDetailParams: settings.arguments as EventDetailParams,

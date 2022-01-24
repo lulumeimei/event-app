@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/configs/app_config.dart';
 import 'package:ticketapp/router_configs/app_routes.dart';
 import 'package:ticketapp/router_configs/generated_route.dart';
+import 'package:ticketapp/views/dashboard_repo/bloc/dashboard_bloc.dart';
 import 'package:ticketapp/views/event_listing_repo/bloc/event_listing_bloc.dart';
 import 'package:ticketapp/views/index.dart';
 
@@ -53,16 +54,23 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<EventListingBloc>(
-          create: (context) => EventListingBloc(
+        // BlocProvider<EventListingBloc>(
+        //   create: (context) => EventListingBloc(
+        //     // can change event listing per page here,
+        //     // default to 20
+        //     perPage: 20,
+        //   ),
+        // ),
+        BlocProvider<ClassificationMasterListingBloc>(
+          create: (context) => ClassificationMasterListingBloc(),
+        ),
+        BlocProvider<DashboardBloc>(
+          create: (context) => DashboardBloc(
             // can change event listing per page here,
             // default to 20
             perPage: 20,
           ),
         ),
-        BlocProvider<ClassificationMasterListingBloc>(
-          create: (context) => ClassificationMasterListingBloc(),
-        )
       ],
       child: MaterialApp(
         title: 'Event Preview App',
@@ -75,4 +83,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
