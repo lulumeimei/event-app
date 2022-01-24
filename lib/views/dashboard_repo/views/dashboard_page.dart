@@ -144,12 +144,55 @@ class _DashboardPageState extends State<DashboardPage> {
         if (state.dashboardState is DashboardLoaded) {
           return SingleChildScrollView(
             scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            clipBehavior: Clip.none,
             child: Row(
               children: state.ticketMasterList.map(
                 (e) {
-                  return MaterialButton(
-                    onPressed: () {},
-                    child: Text(e.name),
+                  RoundedRectangleBorder eventButtonShape =
+                      const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(
+                        12,
+                      ),
+                    ),
+                  );
+                  double buttonHeight = 600;
+                  double buttonWidth = 300;
+                  return Container(
+                    margin: const EdgeInsets.only(right: 10),
+                    child: MaterialButton(
+                      onPressed: () {},
+                      padding: EdgeInsets.zero,
+                      color: Theme.of(context).cardColor,
+                      shape: eventButtonShape,
+                      child: ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(
+                            12,
+                          ),
+                        ),
+                        child: SizedBox(
+                          width: buttonWidth,
+                          height: buttonHeight,
+                          child: Column(
+                            children: [
+                              Expanded(
+                                child: SizedBox(
+                                  width: mediaQ.width,
+                                  child: e.ticketImageList.isNotEmpty
+                                      ? Image.network(
+                                          e.ticketImageList.first.url,
+                                          fit: BoxFit.cover,
+                                        )
+                                      : const Placeholder(),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
                   );
                 },
               ).toList(),

@@ -91,7 +91,7 @@ class _ClassificationMasterListingWidgetState
                             ? _activeButtonColor
                             : _inActiveButtonColor,
                         child: Text(
-                          e.classificationMasterSegment?.name ?? 'undefined',
+                          e.classificationMasterSegment?.name ?? '-',
                           style:
                               Theme.of(context).textTheme.bodyText2?.copyWith(
                                     color: context
