@@ -4,11 +4,11 @@ import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticketapp/configs/app_config.dart';
 import 'package:ticketapp/router_configs/app_routes.dart';
 import 'package:ticketapp/router_configs/generated_route.dart';
 import 'package:ticketapp/views/dashboard_repo/bloc/dashboard_bloc.dart';
-import 'package:ticketapp/views/event_listing_repo/bloc/event_listing_bloc.dart';
 import 'package:ticketapp/views/index.dart';
 
 import 'configs/bloc_observer.dart';
@@ -55,13 +55,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        // BlocProvider<EventListingBloc>(
-        //   create: (context) => EventListingBloc(
-        //     // can change event listing per page here,
-        //     // default to 20
-        //     perPage: 20,
-        //   ),
-        // ),
         BlocProvider<ClassificationMasterListingBloc>(
           create: (context) => ClassificationMasterListingBloc(),
         ),
@@ -73,14 +66,21 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ],
-      child: MaterialApp(
-        title: 'Event Preview App',
-        theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
-        // The Mandy red, dark theme.
-        darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
-        // themeMode: ThemeMode.dark,
-        onGenerateRoute: generatedRoute,
-        initialRoute: AppRoutes.INITIAL_ROUTE,
+      child: ScreenUtilInit(
+        designSize: const Size(375, 812),
+        minTextAdapt: true,
+        splitScreenMode: true,
+        builder: () {
+          return MaterialApp(
+            title: 'Event Preview App',
+            theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
+            // The Mandy red, dark theme.
+            darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
+            // themeMode: ThemeMode.dark,
+            onGenerateRoute: generatedRoute,
+            initialRoute: AppRoutes.INITIAL_ROUTE,
+          );
+        },
       ),
     );
   }

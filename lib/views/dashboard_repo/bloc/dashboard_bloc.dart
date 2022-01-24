@@ -15,11 +15,51 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardModel> {
           ),
         ) {
     on<LoadEvents>(_onLoadEvents);
+    on<NewEventsPage>(_onNextEventsPage);
     on<ChangeClassificationMasterFilter>(_onChangeClassificationMasterFilter);
   }
 
   final TicketMasterRepoInterface ticketMasterRepoInterface =
       TicketMasterRepoInterface();
+
+  _onNextEventsPage(NewEventsPage event, Emitter emit) async {
+    try {
+      emit(state.copyWith(
+        newDashboardState: DashboardLoading(),
+        selectedClassificationMaster: state.selectedClassificationMaster,
+      ));
+      List<TicketMaster> ticketMasterList =
+          await ticketMasterRepoInterface.getTicketMasterList(
+        page: state.page + 1,
+        size: state.perPage,
+        classificationId:
+            state.selectedClassificationMaster?.classificationMasterSegment?.id,
+      );
+      List<TicketMaster> existingTickets = List<TicketMaster>.from(
+        state.ticketMasterList,
+      );
+      existingTickets.addAll(ticketMasterList);
+      emit(
+        state.copyWith(
+          newPage: ticketMasterList.isNotEmpty ? state.page + 1 : null,
+          newTicketMasterList: existingTickets,
+          selectedClassificationMaster: state.selectedClassificationMaster,
+          newDashboardState: DashboardLoaded(),
+        ),
+      );
+    } catch (e, stackTrace) {
+      emit(
+        state.copyWith(
+          selectedClassificationMaster: state.selectedClassificationMaster,
+          newDashboardState: DashboardNextPageFailed(
+            msg: 'Load next page events failed',
+            e: e,
+            stackTrace: stackTrace,
+          ),
+        ),
+      );
+    }
+  }
 
   _onChangeClassificationMasterFilter(
       ChangeClassificationMasterFilter event, Emitter emit) {
@@ -42,11 +82,12 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardModel> {
           await ticketMasterRepoInterface.getTicketMasterList(
         page: 1,
         size: state.perPage,
-        classificationId: state
-            .selectedClassificationMaster?.classificationMasterSegment?.id,
+        classificationId:
+            state.selectedClassificationMaster?.classificationMasterSegment?.id,
       );
       emit(
         state.copyWith(
+          newPage: 1,
           newTicketMasterList: ticketMasterList,
           selectedClassificationMaster: state.selectedClassificationMaster,
           newDashboardState: DashboardLoaded(),

@@ -25,12 +25,13 @@ class EventListingModel extends Equatable {
       ];
 
   factory EventListingModel.initial({
+    int? page,
     int? perPage,
     required ClassificationMaster? selectedClassificationMaster,
     required List<TicketMaster> ticketList,
   }) {
     return EventListingModel(
-      curPage: 0,
+      curPage: page ?? 0,
       perPage: perPage ?? 20,
       ticketList: ticketList,
       selectedClassificationMaster: selectedClassificationMaster,

@@ -9,6 +9,7 @@ abstract class DashboardEvent extends Equatable {
 
 class LoadEvents extends DashboardEvent {}
 
+class NewEventsPage extends DashboardEvent {}
 class ChangeClassificationMasterFilter extends DashboardEvent {
   final ClassificationMaster? classificationMaster;
 

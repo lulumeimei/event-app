@@ -27,25 +27,12 @@ class _EventListingPageState extends State<EventListingPage> {
   @override
   void initState() {
     super.initState();
-    _refreshData();
   }
 
   @override
   void dispose() {
     super.dispose();
     refreshController.dispose();
-  }
-
-  _refreshData() {
-    context.read<EventListingBloc>().add(
-          RefreshEventList(),
-        );
-  }
-
-  _loadData() {
-    context.read<EventListingBloc>().add(
-          LoadEventList(),
-        );
   }
 
   Size get mediaQ {
@@ -56,6 +43,7 @@ class _EventListingPageState extends State<EventListingPage> {
   Widget build(BuildContext context) {
     return BlocProvider<EventListingBloc>(
       create: (context) => EventListingBloc(
+        page: widget.eventListingPageParams.page,
         perPage: widget.eventListingPageParams.perPage,
         selectedClassificationMaster:
             widget.eventListingPageParams.selectedClassificationMaster,
@@ -65,7 +53,13 @@ class _EventListingPageState extends State<EventListingPage> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: const Text('Events'),
+              title: Text(
+                state.selectedClassificationMaster == null
+                    ? "All Events"
+                    : state.selectedClassificationMaster!
+                            .classificationMasterSegment?.name ??
+                        'Events',
+              ),
             ),
             body: BlocListener<EventListingBloc, EventListingModel>(
               listener: (context, state) {
@@ -110,8 +104,16 @@ class _EventListingPageState extends State<EventListingPage> {
                   },
                 ),
                 controller: refreshController,
-                onRefresh: _refreshData,
-                onLoading: _loadData,
+                onRefresh: () {
+                  context.read<EventListingBloc>().add(
+                        RefreshEventList(),
+                      );
+                },
+                onLoading: () {
+                  context.read<EventListingBloc>().add(
+                        LoadEventList(),
+                      );
+                },
                 child: state.ticketList.isNotEmpty
                     ? ListView.builder(
                         itemCount: state.ticketList.length,

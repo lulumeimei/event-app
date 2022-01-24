@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:ticketapp/views/classification_master_listing_repo/bloc/classification_master_listing_bloc.dart';
 import 'package:ticketapp/views/dashboard_repo/bloc/dashboard_bloc.dart';
 import 'package:ticketapp/views/event_listing_repo/bloc/event_listing_bloc.dart';
@@ -55,7 +56,38 @@ class _ClassificationMasterListingWidgetState
           ClassificationMasterListingModel>(
         builder: (context, state) {
           if (state.classificationMasterListingState
-              is ClassificationMasterListingInitial) {}
+              is ClassificationMasterListingInitial) {
+            return SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.only(
+                left: 10,
+                top: 10,
+                right: 10,
+              ),
+              child: Shimmer.fromColors(
+                baseColor: Colors.grey[400]!,
+                highlightColor: Colors.grey[300]!,
+                child: Row(
+                  children: List.generate(
+                    6,
+                    (index) => const Card(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            30.0,
+                          ),
+                        ),
+                      ),
+                      child: SizedBox(
+                        width: 150,
+                        height: 25,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            );
+          }
           if (state.classificationMasterListingState
               is ClassificationMasterListingLoaded) {
             return SizedBox(
@@ -64,6 +96,7 @@ class _ClassificationMasterListingWidgetState
                 padding: const EdgeInsets.only(
                   left: 10,
                   top: 10,
+                  right: 10,
                 ),
                 scrollDirection: Axis.horizontal,
                 child: Row(

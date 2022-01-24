@@ -1,6 +1,7 @@
 // ignore_for_file: constant_identifier_names
 
 import 'package:equatable/equatable.dart';
+import 'package:intl/intl.dart';
 import 'package:ticketapp/models/index.dart';
 
 class TicketMaster extends Equatable {
@@ -219,5 +220,22 @@ class TicketMaster extends Equatable {
       TicketMaster.LINKS: ticketLink.toJson(),
       TicketMaster.EMBEDDED: embedded.toJson(),
     };
+  }
+
+  String get getEventDate {
+    if (sales.publicSales.startDateTime != null &&
+        sales.publicSales.endDateTime != null) {
+      if (sales.publicSales.startDateTime!
+              .compareTo(sales.publicSales.endDateTime!) ==
+          0) {
+        return DateFormat('dd MMM, yyyy')
+            .format(sales.publicSales.startDateTime!);
+      }
+      return DateFormat('dd MMM yyyy')
+              .format(sales.publicSales.startDateTime!) +
+          ' - ${DateFormat('dd MMM yyyy').format(sales.publicSales.endDateTime!)}';
+    } else {
+      return 'TBA';
+    }
   }
 }

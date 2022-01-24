@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 late AppConfigInterface appConfigInterface;
 
@@ -71,6 +73,19 @@ class AppConfig extends Equatable implements AppConfigInterface {
       queryParameters: defaultQueries,
     );
     Dio dio = Dio(baseOptions);
+    if (kReleaseMode == false) {
+      dio.interceptors.add(
+        PrettyDioLogger(
+          requestHeader: false,
+          requestBody: false,
+          responseBody: false,
+          responseHeader: false,
+          error: true,
+          compact: true,
+          maxWidth: 90,
+        ),
+      );
+    }
     return dio;
   }
 }

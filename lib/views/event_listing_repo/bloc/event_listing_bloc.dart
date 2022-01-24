@@ -8,11 +8,13 @@ part 'event_listing_state.dart';
 
 class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
   EventListingBloc({
+    required int? page,
     required int? perPage,
     required ClassificationMaster? selectedClassificationMaster,
     required List<TicketMaster> ticketList,
   }) : super(
           EventListingModel.initial(
+            page: page,
             perPage: perPage,
             selectedClassificationMaster: selectedClassificationMaster,
             ticketList: ticketList,
@@ -20,13 +22,11 @@ class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
         ) {
     on<RefreshEventList>(_onRefreshEventList);
     on<LoadEventList>(_onLoadEventList);
-    
   }
 
   final TicketMasterRepoInterface tickerMasterRepoInterface =
       TicketMasterRepoInterface();
 
-  
   _onLoadEventList(LoadEventList event, Emitter emit) async {
     try {
       List<TicketMaster> ticketMasterList =
