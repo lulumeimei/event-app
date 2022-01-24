@@ -20,11 +20,13 @@ class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
         ) {
     on<RefreshEventList>(_onRefreshEventList);
     on<LoadEventList>(_onLoadEventList);
+    
   }
 
   final TicketMasterRepoInterface tickerMasterRepoInterface =
       TicketMasterRepoInterface();
 
+  
   _onLoadEventList(LoadEventList event, Emitter emit) async {
     try {
       List<TicketMaster> ticketMasterList =

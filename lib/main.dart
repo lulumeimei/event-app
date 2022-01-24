@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:flex_color_scheme/flex_color_scheme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -74,9 +75,10 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MaterialApp(
         title: 'Event Preview App',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
+        theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
+        // The Mandy red, dark theme.
+        darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
+        // themeMode: ThemeMode.dark,
         onGenerateRoute: generatedRoute,
         initialRoute: AppRoutes.INITIAL_ROUTE,
       ),

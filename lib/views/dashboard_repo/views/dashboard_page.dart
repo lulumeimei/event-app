@@ -55,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
-  Widget get _loadedWidget {
+  Widget get _bodyContent {
     List<Widget> widgetlist = [];
 
     // header widget
@@ -64,11 +64,117 @@ class _DashboardPageState extends State<DashboardPage> {
       child: const ClassificationMasterListingWidget(),
     );
 
+    Widget titleWidget = Container(
+      padding: const EdgeInsets.only(
+        left: 15,
+        right: 15,
+        top: 5,
+      ),
+      width: mediaQ.width,
+      child: BlocBuilder<DashboardBloc, DashboardModel>(
+        builder: (context, state) {
+          return Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Container(
+                  padding: const EdgeInsets.only(right: 10),
+                  child: Text(
+                    state.selectedClassificationMaster != null
+                        ? state.selectedClassificationMaster!
+                                .classificationMasterSegment?.name ??
+                            ''
+                        : "All",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Theme.of(context).textTheme.headline5?.copyWith(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () {},
+                child: const Text(
+                  'Show All',
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+
+    Widget eventListingWidget = BlocBuilder<DashboardBloc, DashboardModel>(
+      builder: (context, state) {
+        if (state.dashboardState is DashboardInitial) {
+          return Container(
+            padding: const EdgeInsets.all(10),
+            width: mediaQ.width,
+            child: const Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }
+        if (state.dashboardState is DashboardError) {
+          return SizedBox(
+            width: mediaQ.width,
+            height: 150,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  "Error",
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                ElevatedButton(
+                  onPressed: _loadDashboard,
+                  child: const Text(
+                    "Retry",
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+        if (state.dashboardState is DashboardLoaded) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: state.ticketMasterList.map(
+                (e) {
+                  return MaterialButton(
+                    onPressed: () {},
+                    child: Text(e.name),
+                  );
+                },
+              ).toList(),
+            ),
+          );
+        }
+
+        return SizedBox(
+          width: mediaQ.width,
+          height: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [Text(state.dashboardState.toString())],
+          ),
+        );
+      },
+    );
+
     widgetlist = [
       classificationOptionWidget,
+      titleWidget,
+      eventListingWidget,
     ];
 
-    
     return SizedBox(
       width: mediaQ.width,
       height: mediaQ.height,
@@ -83,49 +189,7 @@ class _DashboardPageState extends State<DashboardPage> {
     return Scaffold(
       appBar: _appBar,
       drawer: _drawer,
-      body: BlocBuilder<DashboardBloc, DashboardModel>(
-        builder: (context, state) {
-          if (state.dashboardState is DashboardInitial) {
-            return const CircularProgressIndicator();
-          }
-          if (state.dashboardState is DashboardError) {
-            return SizedBox(
-              width: mediaQ.width,
-              height: mediaQ.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Error",
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  ElevatedButton(
-                    onPressed: _loadDashboard,
-                    child: const Text(
-                      "Retry",
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }
-          if (state.dashboardState is DashboardLoaded) {
-            return _loadedWidget;
-          }
-          return SizedBox(
-            width: mediaQ.width,
-            height: mediaQ.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [Text(state.dashboardState.toString())],
-            ),
-          );
-        },
-      ),
+      body: _bodyContent,
     );
   }
 }

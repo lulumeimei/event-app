@@ -10,3 +10,4 @@ abstract class EventListingEvent extends Equatable {
 class RefreshEventList extends EventListingEvent {}
 
 class LoadEventList extends EventListingEvent {}
+

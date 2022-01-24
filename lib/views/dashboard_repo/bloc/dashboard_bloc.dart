@@ -15,10 +15,20 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardModel> {
           ),
         ) {
     on<LoadEvents>(_onLoadEvents);
+    on<ChangeClassificationMasterFilter>(_onChangeClassificationMasterFilter);
   }
 
   final TicketMasterRepoInterface ticketMasterRepoInterface =
       TicketMasterRepoInterface();
+
+  _onChangeClassificationMasterFilter(
+      ChangeClassificationMasterFilter event, Emitter emit) {
+    emit(
+      state.copyWith(
+        selectedClassificationMaster: event.classificationMaster,
+      ),
+    );
+  }
 
   _onLoadEvents(LoadEvents event, Emitter emit) async {
     try {
@@ -32,6 +42,8 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardModel> {
           await ticketMasterRepoInterface.getTicketMasterList(
         page: 1,
         size: state.perPage,
+        classificationId: state
+            .selectedClassificationMaster?.classificationMasterSegment?.id,
       );
       emit(
         state.copyWith(

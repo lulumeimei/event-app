@@ -17,6 +17,7 @@ class DashboardModel extends Equatable {
   List<Object?> get props => [
         selectedClassificationMaster,
         ticketMasterList,
+        perPage,
         dashboardState,
       ];
 

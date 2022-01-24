@@ -12,6 +12,7 @@ abstract class TicketMasterRepoInterface {
   Future<List<TicketMaster>> getTicketMasterList({
     int? size,
     required int page,
+    String? classificationId,
   });
 }
 
@@ -20,14 +21,19 @@ class TicketMasterRepo implements TicketMasterRepoInterface {
 
   static const GET_EVENT_LIST_PATH = '/events.json';
 
+  // queries
+  static const CLASSIFICATION_ID = 'classificationId';
+
   @override
   Future<List<TicketMaster>> getTicketMasterList({
     int? size,
     required int page,
+    String? classificationId,
   }) async {
     Map<String, dynamic> queries = {
       'size': size,
       'page': page,
+      TicketMasterRepo.CLASSIFICATION_ID: classificationId,
     };
     queries.removeWhere((key, value) => value == null);
     Dio dio = appConfigInterface.getDio(
