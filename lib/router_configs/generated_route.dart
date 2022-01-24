@@ -5,6 +5,7 @@ import 'package:ticketapp/views/event_detail_repo/index.dart';
 import 'package:ticketapp/views/event_detail_repo/views/event_detail_page.dart';
 import 'package:ticketapp/views/event_listing_repo/params/event_listing_page_params.dart';
 import 'package:ticketapp/views/event_listing_repo/views/event_listing_page.dart';
+import 'package:ticketapp/views/event_search_repo/views/event_search_page.dart';
 
 Route<dynamic> generatedRoute(RouteSettings settings) {
   final parts = settings.name!.split('?');
@@ -34,6 +35,8 @@ Route<dynamic> generatedRoute(RouteSettings settings) {
         return EventDetailPage(
           eventDetailParams: settings.arguments as EventDetailParams,
         );
+      case AppRoutes.EVENT_SEARCH_PAGE:
+        return const EventSearchPage();
       default:
         return Scaffold(
           appBar: AppBar(

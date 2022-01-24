@@ -43,7 +43,12 @@ class _DashboardPageState extends State<DashboardPage> {
           ),
         ),
         IconButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              AppRoutes.EVENT_SEARCH_PAGE,
+            );
+          },
           icon: const Icon(
             Icons.search_outlined,
           ),
