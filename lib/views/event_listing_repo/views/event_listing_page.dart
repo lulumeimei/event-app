@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ticketapp/models/index.dart';
 import 'package:ticketapp/router_configs/app_routes.dart';
+import 'package:ticketapp/views/dashboard_repo/bloc/dashboard_bloc.dart';
 import 'package:ticketapp/views/event_detail_repo/index.dart';
 import 'package:ticketapp/views/event_listing_repo/bloc/event_listing_bloc.dart';
 import 'package:ticketapp/views/event_listing_repo/params/event_listing_page_params.dart';
@@ -63,6 +64,9 @@ class _EventListingPageState extends State<EventListingPage> {
             ),
             body: BlocListener<EventListingBloc, EventListingModel>(
               listener: (context, state) {
+                context.read<DashboardBloc>().add(
+                      LoadDataToDashboard(eventListingModel: state),
+                    );
                 if (state.eventListingState is EventListingRefreshSuccess) {
                   refreshController.refreshCompleted();
                 }

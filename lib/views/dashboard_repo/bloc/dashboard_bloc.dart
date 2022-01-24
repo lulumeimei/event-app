@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:ticketapp/models/index.dart';
 import 'package:ticketapp/repositories/ticket_master_repo.dart';
+import 'package:ticketapp/views/event_listing_repo/bloc/event_listing_bloc.dart';
 
 part 'dashboard_event.dart';
 part 'dashboard_state.dart';
@@ -17,10 +18,21 @@ class DashboardBloc extends Bloc<DashboardEvent, DashboardModel> {
     on<LoadEvents>(_onLoadEvents);
     on<NewEventsPage>(_onNextEventsPage);
     on<ChangeClassificationMasterFilter>(_onChangeClassificationMasterFilter);
+    on<LoadDataToDashboard>(_onLoadDataToDashboard);
   }
 
   final TicketMasterRepoInterface ticketMasterRepoInterface =
       TicketMasterRepoInterface();
+
+  _onLoadDataToDashboard(LoadDataToDashboard event, Emitter emit) {
+    emit(
+      state.copyWith(
+        newPage: event.eventListingModel.curPage,
+        newTicketMasterList: event.eventListingModel.ticketList,
+        selectedClassificationMaster: state.selectedClassificationMaster,
+      ),
+    );
+  }
 
   _onNextEventsPage(NewEventsPage event, Emitter emit) async {
     try {
