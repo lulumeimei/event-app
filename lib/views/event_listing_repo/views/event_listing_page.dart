@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ticketapp/models/index.dart';
+import 'package:ticketapp/router_configs/app_routes.dart';
+import 'package:ticketapp/views/event_detail_repo/index.dart';
 import 'package:ticketapp/views/event_listing_repo/bloc/event_listing_bloc.dart';
 
 class EventListingPage extends StatefulWidget {
@@ -67,7 +69,7 @@ class _EventListingPageState extends State<EventListingPage> {
               if (state.eventListingState is EventListingLoadNoData) {
                 refreshController.loadNoData();
               }
-              if(state.eventListingState is EventListingLoadSuccess){
+              if (state.eventListingState is EventListingLoadSuccess) {
                 refreshController.loadComplete();
               }
             },
@@ -104,11 +106,21 @@ class _EventListingPageState extends State<EventListingPage> {
                       itemBuilder: (BuildContext context, int index) {
                         TicketMaster ticketMaster = state.ticketList[index];
                         return ListTile(
+                          onTap: () {
+                            Navigator.pushNamed(
+                              context,
+                              AppRoutes.EVENT_DETAIL_PAGE,
+                              arguments: EventDetailParams(
+                                id: ticketMaster.id,
+                                ticketMaster: ticketMaster,
+                              ),
+                            );
+                          },
                           title: Text(
                             ticketMaster.name,
                           ),
                           subtitle: Text(
-                            ticketMaster.id,
+                           ticketMaster.classificationList.map((e) => e.segment.name).toList().join(', '),
                           ),
                         );
                       },

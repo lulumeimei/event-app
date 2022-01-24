@@ -13,3 +13,4 @@ export './age_restriction_model.dart';
 export './ticketing_models/index.dart';
 export './ticket_link_models/index.dart';
 export './embedded_models/index.dart';
+export './classification_master_models/index.dart';

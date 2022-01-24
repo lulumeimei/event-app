@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ticketapp/router_configs/app_routes.dart';
+import 'package:ticketapp/views/event_detail_repo/index.dart';
+import 'package:ticketapp/views/event_detail_repo/views/event_detail_page.dart';
 import 'package:ticketapp/views/event_listing_repo/views/event_listing_page.dart';
 
 Route<dynamic> generatedRoute(RouteSettings settings) {
@@ -23,7 +25,9 @@ Route<dynamic> generatedRoute(RouteSettings settings) {
       case AppRoutes.INITIAL_ROUTE:
         return const EventListingPage();
       case AppRoutes.EVENT_DETAIL_PAGE:
-        return const Scaffold(); // TODO: detail page
+        return EventDetailPage(
+          eventDetailParams: settings.arguments as EventDetailParams,
+        );
       default:
         return Scaffold(
           appBar: AppBar(

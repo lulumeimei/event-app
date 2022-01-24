@@ -1,0 +1,1 @@
+export './event_detail_params.dart';
