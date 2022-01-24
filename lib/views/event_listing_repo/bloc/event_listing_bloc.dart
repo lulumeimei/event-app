@@ -33,6 +33,8 @@ class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
           await tickerMasterRepoInterface.getTicketMasterList(
         size: state.perPage,
         page: state.curPage + 1,
+        classificationId:
+            state.selectedClassificationMaster?.classificationMasterSegment?.id,
       );
       List<TicketMaster> existingTicketMaster =
           List<TicketMaster>.from(state.ticketList);
@@ -74,6 +76,8 @@ class EventListingBloc extends Bloc<EventListingEvent, EventListingModel> {
           await tickerMasterRepoInterface.getTicketMasterList(
         size: state.perPage,
         page: state.curPage + 1,
+        classificationId:
+            state.selectedClassificationMaster?.classificationMasterSegment?.id,
       );
       emit(
         state.copyWith(

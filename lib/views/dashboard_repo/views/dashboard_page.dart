@@ -114,7 +114,8 @@ class _DashboardPageState extends State<DashboardPage> {
                   ),
                 ),
               ),
-              if (state.dashboardState is DashboardLoaded)
+              if (state.dashboardState is DashboardLoaded ||
+                  state.dashboardState is DashboardLoading)
                 TextButton(
                   onPressed: () {
                     Navigator.pushNamed(
