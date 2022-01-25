@@ -1,5 +1,6 @@
 // ignore_for_file: constant_identifier_names
 
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -15,12 +16,14 @@ abstract class TicketMasterRepoInterface {
     String? classificationId,
     String? keyword,
   });
+  Future<TicketMaster> getSpecificTicketMaster({required String id});
 }
 
 class TicketMasterRepo implements TicketMasterRepoInterface {
   TicketMasterRepo();
 
   static const GET_EVENT_LIST_PATH = '/events.json';
+  static const GET_SPECIFIC_EVENT_PATH = '/events';
 
   // queries
   static const CLASSIFICATION_ID = 'classificationId';
@@ -57,5 +60,16 @@ class TicketMasterRepo implements TicketMasterRepoInterface {
       }
     }
     return ticketMasterList;
+  }
+
+  @override
+  Future<TicketMaster> getSpecificTicketMaster({required String id}) async {
+    Dio dio = appConfigInterface.getDio();
+    Response response =
+        await dio.get(TicketMasterRepo.GET_SPECIFIC_EVENT_PATH + '/$id');
+    TicketMaster ticketMaster = TicketMaster.fromJson(jsonDecode(
+      response.data,
+    ));
+    return ticketMaster;
   }
 }

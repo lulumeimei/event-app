@@ -6,3 +6,5 @@ abstract class EventDetailEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoadEventDetail extends EventDetailEvent {}
