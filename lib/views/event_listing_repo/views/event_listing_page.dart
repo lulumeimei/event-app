@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:ticketapp/models/index.dart';
 import 'package:ticketapp/router_configs/app_routes.dart';
@@ -8,6 +9,7 @@ import 'package:ticketapp/views/dashboard_repo/bloc/dashboard_bloc.dart';
 import 'package:ticketapp/views/event_detail_repo/index.dart';
 import 'package:ticketapp/views/event_listing_repo/bloc/event_listing_bloc.dart';
 import 'package:ticketapp/views/event_listing_repo/params/event_listing_page_params.dart';
+import 'package:ticketapp/views/event_widget_repo/views/event_widget.dart';
 
 class EventListingPage extends StatefulWidget {
   final EventListingPageParams eventListingPageParams;
@@ -119,35 +121,49 @@ class _EventListingPageState extends State<EventListingPage> {
                       );
                 },
                 child: state.ticketList.isNotEmpty
-                    ? ListView.builder(
+                    ? ListView.separated(
+                        padding: EdgeInsets.all(10.sp),
                         itemCount: state.ticketList.length,
                         itemBuilder: (BuildContext context, int index) {
                           TicketMaster ticketMaster = state.ticketList[index];
-                          return ListTile(
-                            onTap: () {
-                              Navigator.pushNamed(
-                                context,
-                                AppRoutes.EVENT_DETAIL_PAGE,
-                                arguments: EventDetailParams(
-                                  id: ticketMaster.id,
-                                  ticketMaster: ticketMaster,
-                                ),
-                              );
-                            },
-                            title: Text(
-                              ticketMaster.name,
-                            ),
-                            subtitle: Text(
-                              ticketMaster.classificationList
-                                  .map((e) => e.segment.name)
-                                  .toList()
-                                  .join(', '),
-                            ),
+                          return EventWidget(
+                            ticketMaster: ticketMaster,
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) {
+                          return const Divider(
+                            color: Colors.transparent,
                           );
                         },
                       )
-                    : const Center(
-                        child: Text('No Data'),
+                    : Container(
+                        padding: EdgeInsets.all(10.sp),
+                        width: mediaQ.width,
+                        height: mediaQ.height * .7,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: mediaQ.width,
+                              height: 200,
+                              child: Image.asset(
+                                'assets/dashboard/empty.png',
+                                fit: BoxFit.contain,
+                              ),
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              'Ops. No event found',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
               ),
             ),

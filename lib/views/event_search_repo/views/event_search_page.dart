@@ -8,6 +8,7 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:ticketapp/models/index.dart';
 import 'package:ticketapp/views/event_search_repo/bloc/event_search_bloc.dart';
+import 'package:ticketapp/views/event_widget_repo/views/event_widget.dart';
 
 class EventSearchPage extends StatefulWidget {
   const EventSearchPage({Key? key}) : super(key: key);
@@ -150,6 +151,34 @@ class _EventSearchPageState extends State<EventSearchPage> {
       },
       child: BlocBuilder<EventSearchBloc, EventSearchModel>(
         builder: (context, state) {
+          if (state.ticketMasterList.isEmpty) {
+            return Container(
+              padding: EdgeInsets.all(10.sp),
+              width: mediaQ.width,
+              height: mediaQ.height * .7,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: mediaQ.width,
+                    height: 200,
+                    child: Image.asset(
+                      'assets/dashboard/empty.png',
+                      fit: BoxFit.contain,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    'Ops. No event found',
+                    style: Theme.of(context).textTheme.bodyText1?.copyWith(
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ],
+              ),
+            );
+          }
           return SmartRefresher(
             enablePullDown: false,
             enablePullUp: true,
@@ -191,55 +220,14 @@ class _EventSearchPageState extends State<EventSearchPage> {
                 //   ),
                 //   subtitle: Text(ticketMaster.type),
                 // );
-                return InkWell(
-                  onTap: () {
-                    // TODO: go to event detail page
-                  },
-                  child: SizedBox(
-                    width: mediaQ.width,
-                    height: 60.h,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          width: 60.sp,
-                          height: 60.sp,
-                          child: ticketMaster.ticketImageList.isNotEmpty
-                              ? Image.network(
-                                  ticketMaster.ticketImageList.first.url,
-                                  fit: BoxFit.cover,
-                                )
-                              : const Placeholder(),
-                        ),
-                        SizedBox(width: 15.w),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                ticketMaster.name,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.bodyText1,
-                              ),
-                              Text(
-                                ticketMaster.type,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.caption,
-                              )
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                return EventWidget(
+                  ticketMaster: ticketMaster,
                 );
               },
               separatorBuilder: (BuildContext context, int index) {
-                return const Divider();
+                return const Divider(
+                  color: Colors.transparent,
+                );
               },
               itemCount: state.ticketMasterList.length,
             ),
