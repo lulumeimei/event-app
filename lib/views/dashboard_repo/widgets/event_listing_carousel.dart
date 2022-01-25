@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:ticketapp/models/index.dart';
+import 'package:ticketapp/router_configs/app_routes.dart';
 import 'package:ticketapp/views/dashboard_repo/bloc/dashboard_bloc.dart';
+import 'package:ticketapp/views/event_detail_repo/index.dart';
 
 class EventListingCarouselWidget extends StatefulWidget {
   final double width;
@@ -54,7 +56,14 @@ class _EventListingCarouselWidgetState
           margin: EdgeInsets.only(right: 15.w),
           child: MaterialButton(
             onPressed: () {
-              // TODO: Navigate to event detail page
+              Navigator.pushNamed(
+                context,
+                AppRoutes.EVENT_DETAIL_PAGE,
+                arguments: EventDetailParams(
+                  id: ticketMaster.id,
+                  ticketMaster: ticketMaster,
+                ),
+              );
             },
             padding: EdgeInsets.zero,
             color: Theme.of(context).cardColor,
