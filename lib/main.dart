@@ -73,7 +73,9 @@ class _MyAppState extends State<MyApp> {
         builder: () {
           return MaterialApp(
             title: 'Event Preview App',
-            theme: FlexThemeData.light(scheme: FlexScheme.mandyRed),
+            theme: FlexThemeData.light(scheme: FlexScheme.mandyRed).copyWith(
+              scaffoldBackgroundColor: const Color(0xffF1F1F1),
+            ),
             // The Mandy red, dark theme.
             darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
             // themeMode: ThemeMode.dark,
