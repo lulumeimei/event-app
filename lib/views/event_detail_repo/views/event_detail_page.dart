@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:ticketapp/models/index.dart';
 import 'package:ticketapp/views/event_detail_repo/bloc/event_detail_bloc.dart';
 import 'package:ticketapp/views/event_detail_repo/params/event_detail_params.dart';
 
@@ -29,6 +28,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
   @override
   void dispose() {
     super.dispose();
+    eventDetailBloc.close();
   }
 
   _loadData() {
