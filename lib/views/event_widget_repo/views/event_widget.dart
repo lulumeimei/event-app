@@ -40,7 +40,6 @@ class _EventWidgetState extends State<EventWidget> {
     );
     return MaterialButton(
       onPressed: () {
-        // TODO: go to event detail page
         Navigator.pushNamed(
           context,
           AppRoutes.EVENT_DETAIL_PAGE,
