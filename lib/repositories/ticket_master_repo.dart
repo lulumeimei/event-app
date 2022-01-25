@@ -13,6 +13,7 @@ abstract class TicketMasterRepoInterface {
     int? size,
     required int page,
     String? classificationId,
+    String? keyword,
   });
 }
 
@@ -23,17 +24,20 @@ class TicketMasterRepo implements TicketMasterRepoInterface {
 
   // queries
   static const CLASSIFICATION_ID = 'classificationId';
+  static const KEYWORD = 'keyword';
 
   @override
   Future<List<TicketMaster>> getTicketMasterList({
     int? size,
     required int page,
     String? classificationId,
+    String? keyword,
   }) async {
     Map<String, dynamic> queries = {
       'size': size,
       'page': page,
       TicketMasterRepo.CLASSIFICATION_ID: classificationId,
+      TicketMasterRepo.KEYWORD: keyword,
     };
     queries.removeWhere((key, value) => value == null);
     Dio dio = appConfigInterface.getDio(

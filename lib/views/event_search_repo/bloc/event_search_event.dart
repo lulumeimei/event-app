@@ -7,9 +7,15 @@ abstract class EventSearchEvent extends Equatable {
   List<Object> get props => [];
 }
 
+class OnFocusOnSearchField extends EventSearchEvent {}
+
 class QueryStringChanges extends EventSearchEvent {
   final String val;
   const QueryStringChanges({
     required this.val,
   });
 }
+
+class OnSearchTriggered extends EventSearchEvent {}
+
+class NextEventSearchPage extends EventSearchEvent {}
