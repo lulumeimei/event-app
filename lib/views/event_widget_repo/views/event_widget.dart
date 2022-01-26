@@ -62,15 +62,18 @@ class _EventWidgetState extends State<EventWidget> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(
-                width: 60.sp,
-                height: 60.sp,
-                child: ticketMaster.ticketImageList.isNotEmpty
-                    ? Image.network(
-                        ticketMaster.ticketImageList.first.url,
-                        fit: BoxFit.cover,
-                      )
-                    : const Placeholder(),
+              Hero(
+                tag: ticketMaster.id,
+                child: SizedBox(
+                  width: 60.sp,
+                  height: 60.sp,
+                  child: ticketMaster.ticketImageList.isNotEmpty
+                      ? Image.network(
+                          ticketMaster.ticketImageList.first.url,
+                          fit: BoxFit.cover,
+                        )
+                      : const Placeholder(),
+                ),
               ),
               SizedBox(width: 15.w),
               Expanded(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:ticketapp/views/event_detail_repo/bloc/event_detail_bloc.dart';
 import 'package:ticketapp/views/event_detail_repo/params/event_detail_params.dart';
+import 'package:ticketapp/views/event_detail_repo/views/event_detail_loaded_page.dart';
 
 class EventDetailPage extends StatefulWidget {
   final EventDetailParams eventDetailParams;
@@ -19,6 +20,7 @@ class _EventDetailPageState extends State<EventDetailPage> {
     id: widget.eventDetailParams.id,
     ticketMaster: widget.eventDetailParams.ticketMaster,
   );
+
   @override
   void initState() {
     super.initState();
@@ -32,9 +34,11 @@ class _EventDetailPageState extends State<EventDetailPage> {
   }
 
   _loadData() {
-    eventDetailBloc.add(
-      LoadEventDetail(),
-    );
+    if (eventDetailBloc.state.eventDetailState is! EventDetailLoaded) {
+      eventDetailBloc.add(
+        LoadEventDetail(),
+      );
+    }
   }
 
   @override
@@ -43,6 +47,9 @@ class _EventDetailPageState extends State<EventDetailPage> {
       create: (context) => eventDetailBloc,
       child: BlocBuilder<EventDetailBloc, EventDetailModel>(
         builder: (context, state) {
+          if (state.eventDetailState is EventDetailLoaded) {
+            return const EventDetailLoadedPage();
+          }
           return Scaffold(
             appBar: AppBar(),
             body: Center(

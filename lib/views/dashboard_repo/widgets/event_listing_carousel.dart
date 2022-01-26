@@ -76,15 +76,18 @@ class _EventListingCarouselWidgetState
               ),
               child: Stack(
                 children: [
-                  SizedBox(
-                    width: widget.width,
-                    height: widget.height,
-                    child: ticketMaster.ticketImageList.isNotEmpty
-                        ? Image.network(
-                            ticketMaster.ticketImageList.first.url,
-                            fit: BoxFit.cover,
-                          )
-                        : const Placeholder(),
+                  Hero(
+                    tag: ticketMaster.id,
+                    child: SizedBox(
+                      width: widget.width,
+                      height: widget.height,
+                      child: ticketMaster.ticketImageList.isNotEmpty
+                          ? Image.network(
+                              ticketMaster.ticketImageList.first.url,
+                              fit: BoxFit.cover,
+                            )
+                          : const Placeholder(),
+                    ),
                   ),
                   Align(
                     alignment: Alignment.bottomCenter,
