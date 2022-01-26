@@ -78,7 +78,7 @@ class _MyAppState extends State<MyApp> {
             ),
             // The Mandy red, dark theme.
             darkTheme: FlexThemeData.dark(scheme: FlexScheme.mandyRed),
-            // themeMode: ThemeMode.dark,
+            themeMode: ThemeMode.system,
             onGenerateRoute: generatedRoute,
             initialRoute: AppRoutes.INITIAL_ROUTE,
           );
