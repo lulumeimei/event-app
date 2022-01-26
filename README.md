@@ -1,16 +1,23 @@
-# ticketapp
+# Ticketapp
 
-A new Flutter project.
+#### How to config env (staging / production)
+```
+// app_config.dart
+// line 46 in main.dart
+appConfigInterface = kReleaseMode ? AppConfig.prod() : AppConfig.dev();
+```
 
-## Getting Started
+#### How to run the project
+```
+flutter pub get
+flutter run
+```
 
-This project is a starting point for a Flutter application.
+#### Screenshots
+![Homepage](https://github.com/lulumeimei/event-app/blob/master/Screenshots/homepage.png?raw=true)
+![Search Event Page](https://github.com/lulumeimei/event-app/blob/master/Screenshots/search.png?raw=true)
+![Event Detail Page](https://github.com/lulumeimei/event-app/blob/master/Screenshots/detail.png?raw=true)
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [Google Drive Link](https://drive.google.com/drive/folders/1kVWSDuCLCPQkGYh73M3KqGsUfivNv2eg?usp=sharing)
+- [Android apk download](https://drive.google.com/file/d/1Zn_kO352-z2tT8PlJGmpj58c-zX9gzVZ/view?usp=sharing)
+- [Video demostration](https://drive.google.com/file/d/107PPbk3SDAiS7cMyIwNmqvfOTg6njk9h/view?usp=sharing)
