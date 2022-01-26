@@ -20,7 +20,7 @@ class TicketMaster extends Equatable {
   static const INFO = 'info';
   static const PRICE_RANGES = 'priceRanges';
   static const PRODUCTS = 'products';
-  static const SEAT_MAP = 'seatMap';
+  static const SEAT_MAP = 'seatmap';
   static const ACCESSIBILITY = 'accessibility';
   static const TICKET_LIMIT = 'ticketLimit';
   static const AGE_RESTRICTIONS = 'ageRestrictions';
@@ -237,5 +237,38 @@ class TicketMaster extends Equatable {
     } else {
       return 'TBA';
     }
+  }
+
+  List<String> get getTags {
+    List<String> tags = [];
+    for (Classification classification in classificationList) {
+      tags.addAll(classification.getTags);
+    }
+    return tags;
+  }
+
+  String? get getPriceRange {
+    if (priceRanges.isNotEmpty) {
+      PriceRange priceRange = priceRanges.first;
+      return NumberFormat.currency(
+            symbol: priceRange.currency + ' ',
+          ).format(
+            priceRange.min,
+          ) +
+          ' - ' +
+          NumberFormat.currency(
+            symbol: priceRange.currency + ' ',
+          ).format(
+            priceRange.max,
+          );
+    }
+    return null;
+  }
+
+  String? get getTicketLimit {
+    if (accessibility != null) {
+      return accessibility?.ticketLimit?.toString();
+    }
+    return null;
   }
 }

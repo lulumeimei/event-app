@@ -68,4 +68,19 @@ class Classification extends Equatable {
       Classification.SUB_TYPE: subType?.toJson(),
     };
   }
+
+  List<String> get getTags {
+    List<String> tags = [
+      segment.name,
+      genre.name,
+      subGenre.name,
+    ];
+    if (type != null) {
+      tags.add(type!.name);
+    }
+    if (subType != null) {
+      tags.add(subType!.name);
+    }
+    return tags;
+  }
 }

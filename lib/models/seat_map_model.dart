@@ -3,7 +3,7 @@
 import 'package:equatable/equatable.dart';
 
 class SeatMap extends Equatable {
-  static const STATIC_URL = 'staticURL';
+  static const STATIC_URL = 'staticUrl';
 
   final String staticUrl;
 
